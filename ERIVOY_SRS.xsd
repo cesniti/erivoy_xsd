@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2011 rel. 3 sp1 (http://www.altova.com) by peter (peter) -->
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Peter Oudenes (Ministerie van Verkeer en Waterstaat) on behalf of the ERI-secretariat -->
 <!-- ============================================================================================== -->
 <!-- ERIVOYT is the XML Route planning based on the IFTSAI  PROT1.0 edifact msg. -->
 <!-- -->
 <!-- Journaal, Releasenotes: -->
 <!-- -->
-<!-- v0.0 PFO  	2011: Initial version   -->
-<!--  -->
-<!-- -->
+<!--  v0.0 PFO  	2011: Initial version   -->
+<!--  v0.1 ERI 2012? -->
+<!--  v0.2 MvD, KT, May 2013-->
+<!--       Changed element <GenerealInformationAboutTheVoyage> into <GeneralInformation> and added child elements-->
+<!--       Modified several enumerations-->
+<!--       Fixed several copy-paste errors-->
+<!--       Elaborated on some datetime elements -->
+<!--       Elaborated on NameAddress-->
+<!--       Extended TransportDimensionsType-->
+<!--       v0.2.2 Added EstimatedTimeOfDeparture in RoutePoint\DateTime section -->
 <!--  -->
 <!-- ============================================================================================== -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0" targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0" xmlns:altova="http://www.altova.com/xml-schema-extensions" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ERIVOY">
 		<xs:annotation>
 			<xs:documentation>ERI Voyage  bases the EDIFACT IFTSAI 1.0</xs:documentation>
@@ -163,8 +168,36 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="GenerealInformationAboutTheVoyage" type="xs:string"/>
-							<xs:element name="AddtionalUNDInfomation" type="xs:string"/>
+							<xs:element name="GeneralInformation" minOccurs="0" maxOccurs="4">
+								<xs:annotation>
+									<xs:documentation>Dit zit nog niet lekker in de Edifact en XML. Is de status wel onderdeel van de general information?!</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="StatusCode">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="PLA"/>
+													<xs:enumeration value="NAV"/>
+													<xs:enumeration value="CAN"/>
+													<xs:enumeration value="GIV"/>
+													<xs:enumeration value="MOO"/>
+													<xs:enumeration value="UND"/>
+													<xs:enumeration value="ARR"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="AdditionalText" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="512"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="AdditionalUNDInfomation" type="xs:string" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
 							<xs:element name="CargoInformation" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>FTX op blz 20 edifact spec</xs:documentation>
@@ -183,15 +216,41 @@
 											</xs:simpleType>
 										</xs:element>
 										<xs:element name="Information" type="xs:string" minOccurs="0"/>
+										<xs:element name="GeneralGoodsDescription" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Als qualifier FTX blz 20 is AAA</xs:documentation>
+											</xs:annotation>
+										</xs:element>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="NavigationRegime">
+							<xs:element name="NavigationRegime" minOccurs="0">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="ActivePeriode"/>
-										<xs:element name="SailingRegime"/>
-										<xs:element name="NonWorkingDays"/>
+										<xs:element name="ActivePeriod" type="xs:duration" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Welk datatype in XSD? Misschien 2x datum-tijd veld, string met pattern? Periode?</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SailingRegime" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="A1"/>
+													<xs:enumeration value="A2"/>
+													<xs:enumeration value="B"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NonWorkingDays" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:appinfo>
+													<altova:exampleValues>
+														<altova:example value="MO-DI-WE"/>
+														<altova:example value="MO"/>
+													</altova:exampleValues>
+												</xs:appinfo>
+											</xs:annotation>
+										</xs:element>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
@@ -214,7 +273,7 @@
 							<xs:element name="TransportDetails">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="VoyageNo" minOccurs="0">
+										<xs:element name="VoyageNo">
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
 													<xs:maxLength value="17"/>
@@ -257,16 +316,24 @@
 									<xs:attribute name="StageQualifier" type="xs:string" use="required" fixed="20"/>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="TransportDimensions" type="TransportDimensionsType"/>
-							<xs:element name="TransportInformation" minOccurs="0"/>
+							<xs:element name="TransportDimensions" type="TransportDimensionsType" minOccurs="0"/>
+							<xs:element name="TransportInformation" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Mogelijk relatie met FTX in Sg4?!</xs:documentation>
+								</xs:annotation>
+							</xs:element>
 							<xs:element name="TransportLocations">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="PlaceOfDeparture" type="LocationType"/>
-										<xs:element name="RoutePoints" minOccurs="0" maxOccurs="999">
+										<xs:element name="ETD" type="xs:dateTime" minOccurs="0"/>
+										<xs:element name="RoutePoint" minOccurs="0" maxOccurs="999">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="RoutePoints">
+													<xs:element name="Location">
+														<xs:annotation>
+															<xs:documentation>In EDIfact lijkt dit geen choice element</xs:documentation>
+														</xs:annotation>
 														<xs:complexType>
 															<xs:choice>
 																<xs:element name="RIS-index" type="LocationType"/>
@@ -281,7 +348,27 @@
 															</xs:choice>
 														</xs:complexType>
 													</xs:element>
-													<xs:element name="DateTime" type="xs:dateTime" minOccurs="0"/>
+													<xs:element name="DateTime" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence maxOccurs="6">
+																<xs:element name="ActualTimeOfArrival" type="xs:dateTime" minOccurs="0"/>
+																<xs:element name="EstimatedTimeOfArrival" type="xs:dateTime" minOccurs="0"/>
+																<xs:element name="ActualTimeOfDeparture" type="xs:dateTime" minOccurs="0"/>
+																<xs:element name="EstimatedTimeOfDeparture" type="xs:dateTime" minOccurs="0"/>
+																<xs:element name="ArrivalTimeAtWaypoint" type="xs:dateTime" minOccurs="0"/>
+																<xs:element name="ActivityPeriod" type="xs:dateTime" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="OnDemand" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="1"/>
+																<xs:enumeration value="2"/>
+																<xs:enumeration value="3"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
 												</xs:sequence>
 												<xs:attribute name="SequenceIdentifier" use="required">
 													<xs:simpleType>
@@ -309,11 +396,9 @@
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
-												<xs:attribute name="DateTimeQualifier"/>
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="PortOfDestination" type="LocationType"/>
-										<xs:element name="ETD" type="xs:dateTime" minOccurs="0"/>
 										<xs:element name="ETA" type="xs:dateTime" minOccurs="0"/>
 									</xs:sequence>
 								</xs:complexType>
@@ -321,26 +406,20 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="MessageSenderAddress">
+				<xs:element name="NameAddress">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="NameAddress" type="NameAddressType"/>
-							<xs:element name="Contact" type="ContactType" minOccurs="0"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="MessageReceiverAddress" minOccurs="0">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="NameAddress" type="NameAddressType"/>
-							<xs:element name="Contact" type="ContactType" minOccurs="0"/>
+							<xs:element name="MessageSender" type="NameAddressType" minOccurs="0"/>
+							<xs:element name="CarriersAgent" type="NameAddressType" minOccurs="0"/>
+							<xs:element name="VesselCaptain" type="NameAddressType" minOccurs="0"/>
+							<xs:element name="AuthorisedOfficial" type="NameAddressType" minOccurs="0"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="Barges">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Barge" maxOccurs="15">
+							<xs:element name="Barge" maxOccurs="19">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="BargeId" type="VesselType"/>
@@ -367,7 +446,7 @@
 												</xs:restriction>
 											</xs:simpleType>
 										</xs:element>
-										<xs:element name="BargeDimensions" type="TransportDimensionsType"/>
+										<xs:element name="BargeDimensions" type="TransportDimensionsType" minOccurs="0"/>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
@@ -435,13 +514,7 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:maxLength value="3"/>
-						<xs:enumeration value="PLA"/>
-						<xs:enumeration value="NAV"/>
-						<xs:enumeration value="CAN"/>
-						<xs:enumeration value="GIV"/>
-						<xs:enumeration value="MOO"/>
-						<xs:enumeration value="UND"/>
-						<xs:enumeration value="ARR"/>
+						<xs:enumeration value="404"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -550,18 +623,6 @@
 	</xs:complexType>
 	<xs:complexType name="NameAddressType">
 		<xs:sequence>
-			<xs:element name="PartyFunction">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="3"/>
-						<xs:enumeration value="MS"/>
-						<xs:enumeration value="MR"/>
-						<xs:enumeration value="CG"/>
-						<xs:enumeration value="SF"/>
-						<xs:enumeration value="ST"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
 			<xs:element name="PartyId" minOccurs="0">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -605,6 +666,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+			<xs:element name="Contact" type="ContactType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="CommsContactType">
@@ -631,54 +693,153 @@
 	</xs:complexType>
 	<xs:complexType name="TransportDimensionsType">
 		<xs:sequence>
-			<xs:element name="Length">
-				<xs:annotation>
-					<xs:documentation>Dims in cm</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="99999"/>
-					</xs:restriction>
-				</xs:simpleType>
+			<xs:element name="GrossTonnage" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="TNE"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
 			</xs:element>
-			<xs:element name="Width">
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="9999"/>
-					</xs:restriction>
-				</xs:simpleType>
+			<xs:element name="NettoTonnage" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="TNE"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
 			</xs:element>
-			<xs:element name="Draught">
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="9999"/>
-					</xs:restriction>
-				</xs:simpleType>
+			<xs:element name="LengthOverall" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CMT"/>
+										<xs:enumeration value="MTR"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
 			</xs:element>
-			<xs:element name="Tonnage">
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="99999"/>
-					</xs:restriction>
-				</xs:simpleType>
+			<xs:element name="LengthMaximum" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CMT"/>
+										<xs:enumeration value="MTR"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MaximumWidth" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CMT"/>
+										<xs:enumeration value="MTR"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Width" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CMT"/>
+										<xs:enumeration value="MTR"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Draught" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="MTR"/>
+										<xs:enumeration value="CMT"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="Airdraft" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:minInclusive value="0000"/>
-						<xs:maxInclusive value="9999"/>
-					</xs:restriction>
-				</xs:simpleType>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CMT"/>
+										<xs:enumeration value="MTR"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AverageSpeed" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:decimal">
+							<xs:attribute name="UnitQualifier">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="KNO"/>
+										<xs:enumeration value="KMU"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ContactType">
 		<xs:sequence>
-			<xs:element name="ContactInformation" minOccurs="0">
+			<xs:element name="ContactInformation">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:maxLength value="35"/>
