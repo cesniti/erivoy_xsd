@@ -20,24 +20,29 @@
 <!--       Extended TransportDimensionsType-->
 <!--  v0.3 MvD, KT, Sept 2013-->
 <!--       -->
-<!--       -->
-<!--       -->
-<!--        -->
-<!--       -->
-<!--       -->
 <!--  v0.4 MvD, KT, Feb 2013-->
 <!--      Made <ContactInformation> optional in line with Edifact definitions -->
 <!--       Adjusted MaxLength of <LocationName> from 17 to 35 in line with Edifact definitions-->
-<!--       -->
-<!--        -->
-<!--       -->
-<!--       -->
 <!--  -->
+<!-- v0.5 ALSIC, Dec 2019 
+			Added support for HIN number
+			Made Nationality optional. Is not always known
+			Restructured TransportLocations - introduced RoutePoint
+      Updated and added some documentation
+      Added MMSI number of sailing vessel to improve mapping of information.
+      Changed default namespace in order to destinguish different versions of the XSD.
+      Removed maxOccurs of 4 of routeinformation - Only one status of a voyage can be given at a time.
+-->
+
+
 <!-- ============================================================================================== -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0" xmlns:altova="http://www.altova.com/xml-schema-extensions" targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5"
+    targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ERIVOY">
 		<xs:annotation>
-			<xs:documentation>ERI Voyage  bases the EDIFACT IFTSAI 1.0</xs:documentation>
+			<xs:documentation>ERI Voyage bases the EDIFACT IFTSAI 1.0</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -193,23 +198,60 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="RoutingInformation" minOccurs="0" maxOccurs="4">
+							<!-- V0.5 Removed maxOccurs of 4 - Only one status of a voyage can be given at a time. -->
+							<xs:element name="RoutingInformation" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> General information on the voyage of the vessel and the status of the vessel. </xs:documentation>
+								</xs:annotation>
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="StatusCode">
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
-													<xs:enumeration value="PLA"/>
-													<xs:enumeration value="NAV"/>
-													<xs:enumeration value="CAN"/>
-													<xs:enumeration value="GIV"/>
-													<xs:enumeration value="MOO"/>
-													<xs:enumeration value="UND"/>
-													<xs:enumeration value="ARR"/>
+													<xs:enumeration value="PLA">
+														<xs:annotation>
+															<xs:documentation> Planned </xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="NAV">
+														<xs:annotation>
+															<xs:documentation> Navigating / underway
+															</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="CAN">
+														<xs:annotation>
+															<xs:documentation> Cancelled because of a change in schedule </xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="GIV">
+														<xs:annotation>
+															<xs:documentation> General info vessel
+															</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="MOO">
+														<xs:annotation>
+															<xs:documentation> Moored </xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="UND">
+														<xs:annotation>
+															<xs:documentation> Date – Time of Underway (DD:HH active sailing time ) -> additional information needs to be filled in the field AdditionalInformation </xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="ARR">
+														<xs:annotation>
+															<xs:documentation> Arrived </xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
 												</xs:restriction>
 											</xs:simpleType>
 										</xs:element>
 										<xs:element name="GeneralInformation" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> General information concerning the voyage. </xs:documentation>
+											</xs:annotation>
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
 													<xs:maxLength value="512"/>
@@ -217,6 +259,13 @@
 											</xs:simpleType>
 										</xs:element>
 										<xs:element name="AdditionalInformation" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> Additional information In case
+                                                  UND the following format is used : DD:HH (e.g.
+                                                  02:23 means 2 days and 23 hours active sailing
+                                                  time)
+												</xs:documentation>
+											</xs:annotation>
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
 													<xs:maxLength value="512"/>
@@ -295,12 +344,11 @@
 										</xs:element>
 										<xs:element name="NonWorkingDays" type="xs:string" minOccurs="0">
 											<xs:annotation>
-												<xs:appinfo>
-													<altova:exampleValues>
-														<altova:example value="MO-DI-WE"/>
-														<altova:example value="MO"/>
-													</altova:exampleValues>
-												</xs:appinfo>
+												<xs:documentation> List of non working days for the
+                                                  vessel. List of possible values:
+                                                  MO,TU,WE,TH,FR,SA,SU. Multiple values are
+                                                  seperated by - Example: MO-DI-WE
+												</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 									</xs:sequence>
@@ -311,7 +359,7 @@
 				</xs:element>
 				<xs:element name="TestScenarioRef" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>n.a.</xs:documentation>
+						<xs:documentation>Needs to be filled in if the messages belongs to a test.</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
@@ -356,7 +404,8 @@
 												</xs:restriction>
 											</xs:simpleType>
 										</xs:element>
-										<xs:element name="Nationality">
+										<!-- V0.5 Nationality is not always known -->
+										<xs:element name="Nationality" minOccurs="0">
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
 													<xs:minLength value="2"/>
@@ -369,71 +418,21 @@
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="TransportDimensions" type="TransportDimensionsType" minOccurs="0"/>
+							<!-- v0.5 Restructured this type to work with RoutePointTypes which consists of ISRS code and timing information.-->
 							<xs:element name="TransportLocations">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="PlaceOfDeparture" type="LocationType"/>
-										<xs:element name="ATD" type="xs:dateTime" minOccurs="0"/>
-										<xs:element name="RoutePoint" minOccurs="0" maxOccurs="999">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="Location">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="RIS-index" type="LocationType"/>
-																<xs:element name="Coordinates" minOccurs="0">
-																	<xs:complexType>
-																		<xs:sequence>
-																			<xs:element name="Longitude" type="xs:int"/>
-																			<xs:element name="Latitude" type="xs:int"/>
-																		</xs:sequence>
-																	</xs:complexType>
-																</xs:element>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="DateTime" minOccurs="0">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="ActualTimeOfArrival" type="xs:dateTime" minOccurs="0"/>
-																<xs:element name="EstimatedTimeOfArrival" type="xs:dateTime" minOccurs="0"/>
-																<xs:element name="ActualTimeOfDeparture" type="xs:dateTime" minOccurs="0"/>
-																<xs:element name="ArrivalTimeAtWaypoint" type="xs:dateTime" minOccurs="0"/>
-																<xs:element name="ActivityPeriod" type="xs:dateTime" minOccurs="0"/>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="OnDemand" minOccurs="0">
-														<xs:simpleType>
-															<xs:restriction base="xs:string">
-																<xs:length value="1"/>
-																<xs:enumeration value="1"/>
-																<xs:enumeration value="2"/>
-																<xs:enumeration value="3"/>
-															</xs:restriction>
-														</xs:simpleType>
-													</xs:element>
-												</xs:sequence>
-												<xs:attribute name="SequenceIdentifier" use="required">
-													<xs:simpleType>
-														<xs:restriction base="xs:integer">
-															<xs:maxInclusive value="999"/>
-															<xs:minInclusive value="0"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:attribute>
-												<xs:attribute name="LocationQualifier" use="required">
-													<xs:simpleType>
-														<xs:restriction base="xs:string">
-															<xs:minLength value="1"/>
-															<xs:maxLength value="3"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:attribute>
-											</xs:complexType>
+										<xs:element name="PlaceOfDeparture" type="RoutePointType"/>
+										<xs:element name="RoutePoint" minOccurs="0" maxOccurs="999" type="RoutePointType">
+											<xs:annotation>
+												<xs:documentation>List of route points to make the
+                                                  voyage route unambigously. This should consist of
+                                                  important nodes, bridges and locks. The sequence
+                                                  order should be chronological.
+												</xs:documentation>
+											</xs:annotation>
 										</xs:element>
-										<xs:element name="PortOfDestination" type="LocationType"/>
-										<xs:element name="ETA" type="xs:dateTime" minOccurs="0"/>
+										<xs:element name="PortOfDestination" type="RoutePointType"/>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
@@ -480,9 +479,10 @@
 												</xs:restriction>
 											</xs:simpleType>
 										</xs:element>
-										<xs:element name="BargeDimensions" type="TransportDimensionsType" minOccurs="0">
+										<xs:element name="BargeDimensions"
+                                            type="TransportDimensionsType" minOccurs="0">
 											<xs:annotation>
-												<xs:documentation>n.a.</xs:documentation>
+												<xs:documentation>Dimensions of the individual barge</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 									</xs:sequence>
@@ -568,7 +568,9 @@
 			</xs:element>
 			<xs:element name="MessageFunction">
 				<xs:annotation>
-					<xs:documentation>BGM/1225      1 = Cancellation 9 = new message 5 = modification 8=update</xs:documentation>
+					<xs:documentation>BGM/1225 1 = Cancellation 9 = new message 5 = Modification
+                        message by replacement 8=statusupdate
+					</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -581,7 +583,7 @@
 			</xs:element>
 			<xs:element name="CommonDenominator" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>UNH/S009/0068          RefNo to group several msgs of same journey</xs:documentation>
+					<xs:documentation>UNH/S009/0068 RefNo to group several msgs of same journey</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -597,7 +599,8 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="7"/>
-						<xs:maxLength value="8"/>
+						<!-- v0.5 Changed from 8 to 14 for HIN number support -->
+						<xs:maxLength value="14"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -609,52 +612,22 @@
 						<xs:enumeration value="ERN"/>
 						<xs:enumeration value="IMO"/>
 						<xs:enumeration value="ENI"/>
+						<!-- v0.5 Used for identification of recreational vessels -->
+						<xs:enumeration value="HIN"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="LocationType">
-		<xs:sequence minOccurs="0">
-			<xs:element name="Locode">
+			<!-- v0.5 Added MMSI number of sailing vessel to improve mapping of information. -->
+			<xs:element name="MMSI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>It is usefull to include the MMSI number of the sailing vessel
+                        to ease the mapping of ERI messages with AIS track
+                        information.
+					</xs:documentation>
+				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
-						<xs:length value="5"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="LocationName" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="35"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="TerminalCode" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="5"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="TerminalName" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="70"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="FairwaySectionCode" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="5"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="FairwayHectometre" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="5"/>
+						<xs:length value="9"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -801,8 +774,8 @@
 							<xs:attribute name="UnitQualifier">
 								<xs:simpleType>
 									<xs:restriction base="xs:string">
-										<xs:enumeration value="MTR"/>
 										<xs:enumeration value="CMT"/>
+										<xs:enumeration value="MTR"/>
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:attribute>
@@ -854,6 +827,83 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element name="CommsContact" type="CommsContactType" minOccurs="0" maxOccurs="4"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- V0.5 new type RoutePointType-->
+	<xs:complexType name="RoutePointType">
+		<xs:annotation>
+			<xs:documentation>Point information using ISRS codes from the RIS Index. Timing
+                information is given by filling in ETD, ATD, ETA, ATA. ETD and ATD is not required
+                for waypoints.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ISRS">
+				<xs:annotation>
+					<xs:documentation> ISRS code (unique identifier for a location) as known in the
+                        combined RIS-Indexes
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ETD" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Estimated time of Departure (UTC) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ETA" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Estimated time of Arrival (UTC) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ATD" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Actual time of Departure (UTC) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ATA" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Actual time of Arrival (UTC) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActivityPeriod" type="xs:duration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Activity period date range (In case a period of time needs to
+                        be given e.g. lockplanning)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OnDemand" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> In case status on demand is applicable
+						(In case bridges and/or locks are not always manned. )
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+						<xs:enumeration value="1">
+							<xs:annotation>
+								<xs:documentation>all (passing anyway regardless of the costs)</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="2">
+							<xs:annotation>
+								<xs:documentation>all free(Passing only if no costs)</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="3">
+							<xs:annotation>
+								<xs:documentation>normal only(Passing whenever possible)</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
