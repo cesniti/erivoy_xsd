@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 rel. 2 (http://www.altova.com) by Connekt -->
+<!-- edited with XMLSpy v2014 (http://www.altova.com) by Kian Tan (MY Solutions B.V.) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Peter Oudenes (Ministerie van Verkeer en Waterstaat) on behalf of the ERI-secretariat -->
 <!-- ============================================================================================== -->
 <!-- ERIVOYT is the XML Route planning based on the IFTSAI  PROT1.0 edifact msg. -->
@@ -15,6 +15,11 @@
 <!--       Elaborated on some datetime elements -->
 <!--       Elaborated on NameAddress-->
 <!--       Extended TransportDimensionsType-->
+<!--        -->
+<!--       -->
+<!--       -->
+<!--  v0.4 MvD, KT, Feb 2013-->
+<!--      Made <ContactInformation> optional in line with Edifact definitions -->
 <!--  -->
 <!-- ============================================================================================== -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0" xmlns:altova="http://www.altova.com/xml-schema-extensions" targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
@@ -829,7 +834,7 @@
 	</xs:complexType>
 	<xs:complexType name="ContactType">
 		<xs:sequence>
-			<xs:element name="ContactInformation">
+			<xs:element name="ContactInformation" minOccurs="0">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:maxLength value="35"/>
