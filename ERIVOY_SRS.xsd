@@ -96,6 +96,9 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="PrivacyStatement" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>No representation in Edifact</xs:documentation>
+					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
 							<xs:length value="1"/>
@@ -122,6 +125,9 @@
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="Signalling" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>FTX segm grp 4</xs:documentation>
+											</xs:annotation>
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
 													<xs:length value="1"/>
@@ -160,6 +166,9 @@
 							<xs:element name="GenerealInformationAboutTheVoyage" type="xs:string"/>
 							<xs:element name="AddtionalUNDInfomation" type="xs:string"/>
 							<xs:element name="CargoInformation" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>FTX op blz 20 edifact spec</xs:documentation>
+								</xs:annotation>
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="CargoType" minOccurs="0" maxOccurs="5">
@@ -190,6 +199,9 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="TestScenarioRef" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Bestaat niet in Edifact MIG</xs:documentation>
+					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
 							<xs:maxLength value="35"/>
@@ -396,7 +408,7 @@
 			</xs:element>
 			<xs:element name="AckRequest" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>UNB/0031</xs:documentation>
+					<xs:documentation>BGM/4343</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -418,7 +430,7 @@
 			</xs:element>
 			<xs:element name="MessageType">
 				<xs:annotation>
-					<xs:documentation>FTX(1/ABM)/C107/4441</xs:documentation>
+					<xs:documentation>BGM/C002/1001</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
