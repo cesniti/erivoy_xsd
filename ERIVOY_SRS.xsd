@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2014 (http://www.altova.com) by Kian Tan (MY Solutions B.V.) -->
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Peter Oudenes (Ministerie van Verkeer en Waterstaat) on behalf of the ERI-secretariat -->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by J. van Gils (Ministerie van Verkeer en Waterstaat) -->
 <!-- ============================================================================================== -->
 <!-- ERIVOYT is the XML Route planning based on the IFTSAI  PROT1.0 edifact msg. -->
 <!-- -->
@@ -32,14 +32,10 @@
       Added MMSI number of sailing vessel to improve mapping of information.
       Changed default namespace in order to destinguish different versions of the XSD.
       Removed maxOccurs of 4 of routeinformation - Only one status of a voyage can be given at a time.
+      Removed OFS and ERN obsolete
 -->
-
-
 <!-- ============================================================================================== -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5"
-    targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5"
-    elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5">
 	<xs:element name="ERIVOY">
 		<xs:annotation>
 			<xs:documentation>ERI Voyage bases the EDIFACT IFTSAI 1.0</xs:documentation>
@@ -216,7 +212,7 @@
 													<xs:enumeration value="NAV">
 														<xs:annotation>
 															<xs:documentation> Navigating / underway
-															</xs:documentation>
+                              </xs:documentation>
 														</xs:annotation>
 													</xs:enumeration>
 													<xs:enumeration value="CAN">
@@ -227,7 +223,7 @@
 													<xs:enumeration value="GIV">
 														<xs:annotation>
 															<xs:documentation> General info vessel
-															</xs:documentation>
+                              </xs:documentation>
 														</xs:annotation>
 													</xs:enumeration>
 													<xs:enumeration value="MOO">
@@ -264,7 +260,7 @@
                                                   UND the following format is used : DD:HH (e.g.
                                                   02:23 means 2 days and 23 hours active sailing
                                                   time)
-												</xs:documentation>
+                        </xs:documentation>
 											</xs:annotation>
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
@@ -348,7 +344,7 @@
                                                   vessel. List of possible values:
                                                   MO,TU,WE,TH,FR,SA,SU. Multiple values are
                                                   seperated by - Example: MO-DI-WE
-												</xs:documentation>
+                        </xs:documentation>
 											</xs:annotation>
 										</xs:element>
 									</xs:sequence>
@@ -423,13 +419,9 @@
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="PlaceOfDeparture" type="RoutePointType"/>
-										<xs:element name="RoutePoint" minOccurs="0" maxOccurs="999" type="RoutePointType">
+										<xs:element name="RoutePoint" type="RoutePointType" minOccurs="0" maxOccurs="999">
 											<xs:annotation>
-												<xs:documentation>List of route points to make the
-                                                  voyage route unambigously. This should consist of
-                                                  important nodes, bridges and locks. The sequence
-                                                  order should be chronological.
-												</xs:documentation>
+												<xs:documentation>List of route points to make the voyage route unambigously. This should consist of important nodes, bridges and locks. The sequence order should be chronological.</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 										<xs:element name="PortOfDestination" type="RoutePointType"/>
@@ -479,8 +471,7 @@
 												</xs:restriction>
 											</xs:simpleType>
 										</xs:element>
-										<xs:element name="BargeDimensions"
-                                            type="TransportDimensionsType" minOccurs="0">
+										<xs:element name="BargeDimensions" type="TransportDimensionsType" minOccurs="0">
 											<xs:annotation>
 												<xs:documentation>Dimensions of the individual barge</xs:documentation>
 											</xs:annotation>
@@ -568,9 +559,7 @@
 			</xs:element>
 			<xs:element name="MessageFunction">
 				<xs:annotation>
-					<xs:documentation>BGM/1225 1 = Cancellation 9 = new message 5 = Modification
-                        message by replacement 8=statusupdate
-					</xs:documentation>
+					<xs:documentation>BGM/1225      1 = Cancellation 9 = new message 5 = Modification message by replacement 8=statusupdate</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -583,7 +572,7 @@
 			</xs:element>
 			<xs:element name="CommonDenominator" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>UNH/S009/0068 RefNo to group several msgs of same journey</xs:documentation>
+					<xs:documentation>UNH/S009/0068          RefNo to group several msgs of same journey</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -599,8 +588,8 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="7"/>
-						<!-- v0.5 Changed from 8 to 14 for HIN number support -->
 						<xs:maxLength value="14"/>
+						<!-- v0.5 Changed from 8 to 14 for HIN number support -->
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -608,22 +597,17 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:length value="3"/>
-						<xs:enumeration value="OFS"/>
-						<xs:enumeration value="ERN"/>
 						<xs:enumeration value="IMO"/>
 						<xs:enumeration value="ENI"/>
-						<!-- v0.5 Used for identification of recreational vessels -->
 						<xs:enumeration value="HIN"/>
+						<!-- v0.5 Used for identification of recreational vessels -->
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
 			<!-- v0.5 Added MMSI number of sailing vessel to improve mapping of information. -->
 			<xs:element name="MMSI" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>It is usefull to include the MMSI number of the sailing vessel
-                        to ease the mapping of ERI messages with AIS track
-                        information.
-					</xs:documentation>
+					<xs:documentation>It is usefull to include the MMSI number of the sailing vessel to ease the mapping of ERI messages with AIS track information.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -832,17 +816,15 @@
 	<!-- V0.5 new type RoutePointType-->
 	<xs:complexType name="RoutePointType">
 		<xs:annotation>
-			<xs:documentation>Point information using ISRS codes from the RIS Index. Timing
-                information is given by filling in ETD, ATD, ETA, ATA. ETD and ATD is not required
-                for waypoints.
-			</xs:documentation>
+			<xs:documentation>Point information using ISRS codes from the RIS Index. Timing information is given by filling in ETD, ATD, ETA, ATA. 
+					ETD and ATD is not required for waypoints.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ISRS">
 				<xs:annotation>
-					<xs:documentation> ISRS code (unique identifier for a location) as known in the
-                        combined RIS-Indexes
-					</xs:documentation>
+					<xs:documentation>
+            ISRS code (unique identifier for a location) as known in the combined RIS-Indexes
+          </xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -852,36 +834,49 @@
 			</xs:element>
 			<xs:element name="ETD" type="xs:dateTime" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation> Estimated time of Departure (UTC) </xs:documentation>
+					<xs:documentation>
+            Estimated time of Departure (UTC)
+          </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ETA" type="xs:dateTime" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation> Estimated time of Arrival (UTC) </xs:documentation>
+					<xs:documentation>
+            Estimated time of Arrival (UTC)
+          </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ATD" type="xs:dateTime" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation> Actual time of Departure (UTC) </xs:documentation>
+					<xs:documentation>
+            Actual time of Departure (UTC)
+          </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ATA" type="xs:dateTime" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation> Actual time of Arrival (UTC) </xs:documentation>
+					<xs:documentation>
+            Actual time of Arrival (UTC)
+          </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ActivityPeriod" type="xs:duration" minOccurs="0">
+			<xs:element name="Activity" type="xs:integer" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation> Activity period date range (In case a period of time needs to
-                        be given e.g. lockplanning)
-					</xs:documentation>
+					<xs:documentation>Conveyance Call</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperationPeriod" type="xs:duration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+            Activity period date range (In case a period of time needs to be given e.g. lockplanning)
+          </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="OnDemand" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation> In case status on demand is applicable
-						(In case bridges and/or locks are not always manned. )
-					</xs:documentation>
+					<xs:documentation>
+            In case status on demand is applicable (In case bridges and/or locks are not always manned. ) 
+          </xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
