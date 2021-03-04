@@ -45,7 +45,7 @@
 				<xs:element name="MessageId" type="MessageIdType"/>
 				<xs:element name="PrivacyStatement" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>No representation in Edifact</xs:documentation>
+						<xs:documentation>Indicate if this message may be forwarded to other authorities</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
@@ -57,7 +57,7 @@
 				</xs:element>
 				<xs:element name="MessageRef" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>RFF/C506/1154Reference to previous message</xs:documentation>
+						<xs:documentation>Reference number to previous message</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
@@ -74,7 +74,7 @@
 									<xs:sequence>
 										<xs:element name="Signalling" minOccurs="0">
 											<xs:annotation>
-												<xs:documentation>FTX segm grp 4</xs:documentation>
+												<xs:documentation>Number of blue cones</xs:documentation>
 											</xs:annotation>
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
@@ -415,7 +415,7 @@
 		<xs:sequence>
 			<xs:element name="SenderId">
 				<xs:annotation>
-					<xs:documentation>UNB/S002/0004</xs:documentation>
+					<xs:documentation>Sender identification</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -425,7 +425,7 @@
 			</xs:element>
 			<xs:element name="ReceiverId">
 				<xs:annotation>
-					<xs:documentation>UNB/S003/010</xs:documentation>
+					<xs:documentation>Recipient identification</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -435,12 +435,12 @@
 			</xs:element>
 			<xs:element name="GenerationDateTime" type="xs:dateTime">
 				<xs:annotation>
-					<xs:documentation>UNB/S004/0017and0018</xs:documentation>
+					<xs:documentation>Generation Date-Time of the message</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AckRequest" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>BGM/4343</xs:documentation>
+					<xs:documentation>Acknowledgement request</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -451,7 +451,7 @@
 			</xs:element>
 			<xs:element name="TestIndicator" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>UNB/0035</xs:documentation>
+					<xs:documentation>'1' = The interchange relates to a test message</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -473,7 +473,7 @@
 			</xs:element>
 			<xs:element name="MessageNo">
 				<xs:annotation>
-					<xs:documentation>UNB/0020</xs:documentation>
+					<xs:documentation>Message reference number. This number shall be as unique as possible, both for sender and for receiver.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -483,7 +483,7 @@
 			</xs:element>
 			<xs:element name="MessageFunction">
 				<xs:annotation>
-					<xs:documentation>BGM/1225      1 = Cancellation 9 = new message 5 = Modification message by replacement 8=statusupdate</xs:documentation>
+					<xs:documentation>1 = Cancellation 9 = new message 5 = Modification message by replacement 8=statusupdate</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -496,7 +496,7 @@
 			</xs:element>
 			<xs:element name="CommonDenominator" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>UNH/S009/0068          RefNo to group several msgs of same journey</xs:documentation>
+					<xs:documentation>RefNo to group several msgs of same journey (including other types of ERI messages)</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
