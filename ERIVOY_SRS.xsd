@@ -38,87 +38,11 @@
 <xs:schema targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5">
 	<xs:element name="ERIVOY">
 		<xs:annotation>
-			<xs:documentation>ERI Voyage bases the EDIFACT IFTSAI 1.0</xs:documentation>
+			<xs:documentation>ERI Voyage message</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="MessageId" type="MessageIdType"/>
-				<xs:element name="EDIMapping">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Syntax">
-								<xs:annotation>
-									<xs:documentation>UNB/S0001/0001</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:enumeration value="UNOC"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-							<xs:element name="SyntaxVersion">
-								<xs:annotation>
-									<xs:documentation>UNB/S001/0002</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:enumeration value="2"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-							<xs:element name="MessageType">
-								<xs:annotation>
-									<xs:documentation>UNH/S009/0065</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:enumeration value="IFTSAI"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-							<xs:element name="MessageVersion">
-								<xs:annotation>
-									<xs:documentation>UNH/S009/0052</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:enumeration value="D"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-							<xs:element name="MessageRelease">
-								<xs:annotation>
-									<xs:documentation>UNH/S009/0054</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:enumeration value="04B"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-							<xs:element name="MessageControllingAgency">
-								<xs:annotation>
-									<xs:documentation>UNH/S009/0051</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:enumeration value="UN"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-							<xs:element name="AssociationAssignedCode">
-								<xs:annotation>
-									<xs:documentation>UNH/S009/0057</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:maxLength value="6"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="PrivacyStatement" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>No representation in Edifact</xs:documentation>
