@@ -1,40 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2014 (http://www.altova.com) by Kian Tan (MY Solutions B.V.) -->
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by J. van Gils (Ministerie van Verkeer en Waterstaat) -->
-<!-- ============================================================================================== -->
-<!-- ERIVOYT is the XML Route planning based on the IFTSAI  PROT1.0 edifact msg. -->
-<!-- -->
-<!-- Journaal, Releasenotes: -->
-<!-- -->
-<!--  v0.0 PFO  	2011: Initial version   -->
-<!--  v0.1 ERI 2012? -->
-<!--  v0.2 MvD, KT, May 2013-->
-<!--		Added annotation to 'No representation in Edifact' to <PrivacyStatement> -->
-<!--		Added annotation 'FTX segm grp 4' to <Signalling> -->
-<!-- 		Changed element <GenerealInformationAboutTheVoyage> into <GeneralInformation> and added child elements-->
-<!--		Added annotation to <CargoInformation> -->
-<!--       Modified several enumerations-->
-<!--       Fixed several copy-paste errors-->
-<!--       Elaborated on some datetime elements -->
-<!--       Elaborated on NameAddress-->
-<!--       Extended TransportDimensionsType-->
-<!--  v0.3 MvD, KT, Sept 2013-->
-<!--       -->
-<!--  v0.4 MvD, KT, Feb 2013-->
-<!--      Made <ContactInformation> optional in line with Edifact definitions -->
-<!--       Adjusted MaxLength of <LocationName> from 17 to 35 in line with Edifact definitions-->
-<!--  -->
-<!-- v0.5 ALSIC, Dec 2019 
-			Added support for HIN number
-			Made Nationality optional. Is not always known
-			Restructured TransportLocations - introduced RoutePoint
-      Updated and added some documentation
-      Added MMSI number of sailing vessel to improve mapping of information.
-      Changed default namespace in order to destinguish different versions of the XSD.
-      Removed maxOccurs of 4 of routeinformation - Only one status of a voyage can be given at a time.
-      Removed OFS and ERN obsolete
--->
-<!-- ============================================================================================== -->
+<!-- =========================================================================== -->
+<!-- ERIVOY is the XML Route planning message for inland waterway transportation -->
+<!-- =========================================================================== -->
 <xs:schema targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5">
 	<xs:element name="ERIVOY">
 		<xs:annotation>
