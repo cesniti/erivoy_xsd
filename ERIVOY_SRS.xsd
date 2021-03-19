@@ -301,7 +301,6 @@
 											</xs:simpleType>
 										</xs:element>
 									</xs:sequence>
-									<xs:attribute name="StageQualifier" type="xs:string" use="required" fixed="20"/>
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="TransportDimensions" type="TransportDimensionsType" minOccurs="0"/>
