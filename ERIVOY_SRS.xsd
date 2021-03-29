@@ -460,7 +460,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="CommonDenominator" minOccurs="0">
+			<xs:element name="CommonDenominator">
 				<xs:annotation>
 					<xs:documentation>RefNo to group several msgs of same journey (including other types of ERI messages)</xs:documentation>
 				</xs:annotation>
