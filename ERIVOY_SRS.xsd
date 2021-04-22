@@ -111,20 +111,9 @@
 															<xs:documentation> Cancelled because of a change in schedule </xs:documentation>
 														</xs:annotation>
 													</xs:enumeration>
-													<xs:enumeration value="GIV">
-														<xs:annotation>
-															<xs:documentation> General info vessel
-                              </xs:documentation>
-														</xs:annotation>
-													</xs:enumeration>
 													<xs:enumeration value="MOO">
 														<xs:annotation>
 															<xs:documentation> Moored </xs:documentation>
-														</xs:annotation>
-													</xs:enumeration>
-													<xs:enumeration value="UND">
-														<xs:annotation>
-															<xs:documentation> Date – Time of Underway (DD:HH active sailing time ) -> additional information needs to be filled in the field AdditionalInformation </xs:documentation>
 														</xs:annotation>
 													</xs:enumeration>
 													<xs:enumeration value="ARR">
