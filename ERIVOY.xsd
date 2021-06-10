@@ -2,7 +2,7 @@
 <!-- =========================================================================== -->
 <!-- ERIVOY is the XML Route planning message for inland waterway transportation -->
 <!-- =========================================================================== -->
-<xs:schema targetNamespace="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.risexpertgroups.org/IFTSAI1.0/xsd/0.5">
+<xs:schema xmlns="https://ris.cesni.eu/_assets/ERI-ERIVOY/1.4" targetNamespace="https://ris.cesni.eu/_assets/ERI-ERIVOY/1.4" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.4">
 	<xs:element name="ERIVOY">
 		<xs:annotation>
 			<xs:documentation>ERI Voyage message</xs:documentation>
