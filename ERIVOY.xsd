@@ -739,10 +739,41 @@
           </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Activity" type="xs:integer" minOccurs="0">
+			<xs:element name="Activity" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Conveyance Call</xs:documentation>
+					<xs:documentation>1: Cargo operations (Discharging and/or loading of cargo.), 2: Passenger movement (Embarking and/or disembarking of passengers.), 3: Taking bunkers (Taking bunker (refuelling).), 4: Changing crew (Changing crew member(s).), 5: Goodwill visit (Friendly visit.), 6: Taking supplies (Taking supplies.), 7: Repair (To effect repair.), 8: Laid-up (Inactive service.), 9: Awaiting orders (Awaiting job order.), 10: Miscellaneous (Miscellaneous purpose of call.), 11: Crew movement (Embarking and/or disembarking of crews.), 12: Cruise), leisure and recreation (To visit a port for cruise), leisure and recreation.), 13: Under government order (This is a visit to a port which has been ordered by (government.), 14: Quarantine inspection (To have a quarantine inspection.), 15: Refuge (To seek protection against something unpleasant and/or (threatening such as bad weather or danger.), 16: Unloading cargo (Discharging of cargo from the means of transport.), 17: Loading cargo (Loading of cargo onto the means of transport.), 18: Repair in dry dock (Vessel to undergo repair in a dry dock.), 19: Repair in wet dock (Repair of a vessel in a dock without removing the (surrounding water.), 20: Cargo tank cleaning (Cargo tanks of the means of transport will be cleaned.), 21: Means of transport customs clearance (Means of transport will be customs cleared.), 22: De-gassing (Means of transport will be de-gassed.), 23: Waste disposal (Means of transport will dispose waste.), 24: Resting (Resting for a certain period), 25: Vessel inspection (Vessel will stop for general inspection), 26: Cargo inspection (Vessel will stop for cargo inspection), 27: Border crossing (Vessel will cross a border)</xs:documentation>
 				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
+						<xs:enumeration value="6"/>
+						<xs:enumeration value="7"/>
+						<xs:enumeration value="8"/>
+						<xs:enumeration value="9"/>
+						<xs:enumeration value="10"/>
+						<xs:enumeration value="11"/>
+						<xs:enumeration value="12"/>
+						<xs:enumeration value="13"/>
+						<xs:enumeration value="14"/>
+						<xs:enumeration value="15"/>
+						<xs:enumeration value="16"/>
+						<xs:enumeration value="17"/>
+						<xs:enumeration value="18"/>
+						<xs:enumeration value="19"/>
+						<xs:enumeration value="20"/>
+						<xs:enumeration value="21"/>
+						<xs:enumeration value="22"/>
+						<xs:enumeration value="23"/>
+						<xs:enumeration value="24"/>
+						<xs:enumeration value="25"/>
+						<xs:enumeration value="26"/>
+						<xs:enumeration value="27"/>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:element>
 			<xs:element name="OperationPeriod" type="xs:duration" minOccurs="0">
 				<xs:annotation>
