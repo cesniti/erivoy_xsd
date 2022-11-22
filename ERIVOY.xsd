@@ -699,17 +699,10 @@
 					ETD and ATD is not required for waypoints.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ISRS">
+			<xs:element name="Location" type="LocationType">
 				<xs:annotation>
-					<xs:documentation>
-            ISRS code (unique identifier for a location) as known in the combined RIS-Indexes
-          </xs:documentation>
+					<xs:documentation>Specification of the location of the Route Point</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:length value="20"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:element>
 			<xs:element name="ETD" type="xs:dateTime" minOccurs="0">
 				<xs:annotation>
@@ -806,6 +799,70 @@
 								<xs:documentation>normal only(Passing whenever possible)</xs:documentation>
 							</xs:annotation>
 						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+		<xs:complexType name="LocationType">
+		<xs:sequence>
+			<xs:element name="Locode">
+				<xs:annotation>
+					<xs:documentation>UNECE location code (Rec. 16)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LocationName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Full name of the location</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="17"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ObjectCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Object code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ObjectName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Full name of the object.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FairwaySectionCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Fairway section code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FairwayHectometre" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Fairway section hectometre</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="5"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
